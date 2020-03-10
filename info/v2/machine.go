@@ -46,6 +46,9 @@ type Attributes struct {
 	// The amount of memory (in bytes) in this machine
 	MemoryCapacity uint64 `json:"memory_capacity"`
 
+	// The amount of memory (in bytes) free in this machine
+	MemoryFree uint64 `json:"memory_free"`
+
 	// The machine id
 	MachineID string `json:"machine_id"`
 
@@ -85,6 +88,7 @@ func GetAttributes(mi *v1.MachineInfo, vi *v1.VersionInfo) Attributes {
 		NumCores:           mi.NumCores,
 		CpuFrequency:       mi.CpuFrequency,
 		MemoryCapacity:     mi.MemoryCapacity,
+		MemoryFree:			mi.MemoryFree,
 		MachineID:          mi.MachineID,
 		SystemUUID:         mi.SystemUUID,
 		Filesystems:        mi.Filesystems,

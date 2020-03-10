@@ -73,6 +73,11 @@ func Info(sysFs sysfs.SysFs, fsInfo fs.FsInfo, inHostNamespace bool) (*info.Mach
 		return nil, err
 	}
 
+	memoryFree, err := GetMachineMemoryFree()
+	if err != nil {
+		return nil, err
+	}
+
 	memoryByType, err := GetMachineMemoryByType(memoryControllerPath)
 	if err != nil {
 		return nil, err
@@ -119,6 +124,7 @@ func Info(sysFs sysfs.SysFs, fsInfo fs.FsInfo, inHostNamespace bool) (*info.Mach
 		NumSockets:       GetSockets(cpuinfo),
 		CpuFrequency:     clockSpeed,
 		MemoryCapacity:   memoryCapacity,
+		MemoryFree:  	  memoryFree,
 		MemoryByType:     memoryByType,
 		HugePages:        hugePagesInfo,
 		DiskMap:          diskMap,
