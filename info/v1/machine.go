@@ -173,6 +173,9 @@ type MachineInfo struct {
 	// The amount of memory (in bytes) in this machine
 	MemoryCapacity uint64 `json:"memory_capacity"`
 
+	// The amount of memory (in bytes) free in this machine
+	MemoryFree uint64 `json:"memory_free"`
+
 	// Memory capacity and number of DIMMs by memory type
 	MemoryByType map[string]*MemoryInfo `json:"memory_by_type"`
 
@@ -214,6 +217,9 @@ type MachineInfo struct {
 type MemoryInfo struct {
 	// The amount of memory (in bytes).
 	Capacity uint64
+
+	// The amount of memory free (in bytes).
+	Free uint64
 
 	// Number of memory DIMMs.
 	DimmCount uint

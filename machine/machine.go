@@ -47,6 +47,7 @@ var (
 	// Power systems have a different format so cater for both
 	cpuClockSpeedMHz     = regexp.MustCompile(`(?:cpu MHz|clock)\s*:\s*([0-9]+\.[0-9]+)(?:MHz)?`)
 	memoryCapacityRegexp = regexp.MustCompile(`MemTotal:\s*([0-9]+) kB`)
+	memoryFreeRegexp 	 = regexp.MustCompile(`MemFree:\s*([0-9]+) kB`)
 	swapCapacityRegexp   = regexp.MustCompile(`SwapTotal:\s*([0-9]+) kB`)
 
 	cpuBusPath         = "/sys/bus/cpu/devices/"
@@ -137,6 +138,21 @@ func GetMachineMemoryCapacity() (uint64, error) {
 		return 0, err
 	}
 	return memoryCapacity, err
+}
+
+// GetMachineMMemoryFree returns the machine's free memory from /proc/meminfo.
+// Returns the free memory as an uint64 (number of bytes).
+func GetMachineMemoryFree() (uint64, error) {
+	out, err := ioutil.ReadFile("/proc/meminfo")
+	if err != nil {
+		return 0, err
+	}
+
+	memoryFree, err := parseCapacity(out, memoryFreeRegexp)
+	if err != nil {
+		return 0, err
+	}
+	return memoryFree, err
 }
 
 // GetMachineMemoryByType returns information about memory capcity and number of DIMMs.
